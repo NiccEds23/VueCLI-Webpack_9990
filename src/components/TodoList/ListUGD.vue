@@ -12,27 +12,19 @@
                     hide-details
                 ></v-text-field>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" dark @click="dialogSelesai = true">
-                    TODO Selesai
-                </v-btn>
+                <v-btn class="mr-3" color="blue" dark @click="dialogSelesai=true">
+					Todo Selesai
+				</v-btn>
                 <v-btn color="success" dark @click="dialog = true">
                     Tambah
                 </v-btn>
             </v-card-title>
             <v-data-table :headers="headers" :items="todos" :search="search">
                 <template v-slot:[`item.priority`]="{ item }">
-                    <td>
-                        <v-card v-if="item.priority == 'Penting'" style="border-color: red; color: red; width: fit-content; padding: 4px;" outlined>
-                            {{ item.priority }}
-                        </v-card>
-                        <v-card v-else-if="item.priority == 'Biasa'" style="border-color: blue; color: blue; width: fit-content; padding: 4px;" outlined>
-                            {{ item.priority }}
-                        </v-card>
-                        <v-card v-else outlined style="border-color: green; color: green; width: fit-content; padding: 4px;">
-                            {{ item.priority }}
-                        </v-card>
-                    </td>
-                </template>
+					<v-chip outlined label :color="getColor(item.priority)" dark>
+						{{ item.priority }}
+					</v-chip>
+				</template>
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-btn small class="mr-2" @click="editItem(item)">
                         edit
@@ -263,6 +255,11 @@ export default {
         confirmdelete() {
             this.todos.splice(this.todos.indexOf(this.edititem), 1);
             this.dialogDelete = false;
+        },
+		getColor(prioritas) {
+			if (prioritas === "Penting") return "red";
+			else if (prioritas === "Biasa") return "blue";
+			else return "green";
         },
      
     },
